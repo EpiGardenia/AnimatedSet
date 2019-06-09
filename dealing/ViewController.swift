@@ -11,6 +11,20 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var NewGameButton: UIButton!
+    @IBOutlet weak var CardTableView: UIView!
+    @IBOutlet weak var DealButton: UIButton!
+    @IBOutlet weak var SetCountLabel: UILabel!
+    @IBAction func ClickNewGame(_ sender: UIButton) {
+
+    }
+    
+    @IBAction func ClickDeal(_ sender: UIButton) {
+    }
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
