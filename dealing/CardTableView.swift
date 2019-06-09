@@ -12,7 +12,7 @@ class CardTableView: UIView {
     
     lazy var cardButtons = [CardView]()
     var numberOfCardsOnTable = 0
-    var grid = Grid(layout: .aspectRatio(0.6))
+    var grid = Grid(layout: .aspectRatio(2))
     
     func addCardButton(amount: Int) {
         print(description)

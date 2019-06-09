@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CardTableView.addCardButton(amount: 12)
+        CardTableView.addCardButton(amount: 24)
         // Do any additional setup after loading the view.
     }
 
