@@ -11,9 +11,12 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var NewGameButton: UIButton!
-    @IBOutlet weak var CardTableView: UIView!
+    @IBOutlet weak var CardTableView: CardTableView!
+
     @IBOutlet weak var DealButton: UIButton!
     @IBOutlet weak var SetCountLabel: UILabel!
+    
+    
     @IBAction func ClickNewGame(_ sender: UIButton) {
 
     }
@@ -25,8 +28,11 @@ class ViewController: UIViewController {
     
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        CardTableView.addCardButton(amount: 12)
         // Do any additional setup after loading the view.
     }
 
