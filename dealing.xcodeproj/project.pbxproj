@@ -16,6 +16,7 @@
 		1AE11A8222AD1C290082F409 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11A8122AD1C290082F409 /* CardView.swift */; };
 		1AE11A8522AD260A0082F409 /* CardTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11A8422AD260A0082F409 /* CardTableView.swift */; };
 		1AE11A8922AD2E9A0082F409 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11A8822AD2E9A0082F409 /* Grid.swift */; };
+		1AE11A8B22AE3D980082F409 /* CardBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE11A8A22AE3D980082F409 /* CardBehavior.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		1AE11A8122AD1C290082F409 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		1AE11A8422AD260A0082F409 /* CardTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTableView.swift; sourceTree = "<group>"; };
 		1AE11A8822AD2E9A0082F409 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		1AE11A8A22AE3D980082F409 /* CardBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBehavior.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				1AE11A6C22AC433F0082F409 /* ViewController.swift */,
 				1AE11A8422AD260A0082F409 /* CardTableView.swift */,
 				1AE11A8122AD1C290082F409 /* CardView.swift */,
+				1AE11A8A22AE3D980082F409 /* CardBehavior.swift */,
 				1AE11A8822AD2E9A0082F409 /* Grid.swift */,
 				1AE11A6E22AC433F0082F409 /* Main.storyboard */,
 				1AE11A7622AC43400082F409 /* LaunchScreen.storyboard */,
@@ -161,6 +164,7 @@
 				1AE11A8222AD1C290082F409 /* CardView.swift in Sources */,
 				1AE11A6B22AC433F0082F409 /* AppDelegate.swift in Sources */,
 				1AE11A8922AD2E9A0082F409 /* Grid.swift in Sources */,
+				1AE11A8B22AE3D980082F409 /* CardBehavior.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,20 +15,31 @@ class CardTableView: UIView {
     var grid = Grid(layout: .aspectRatio(2))
     
     func addCardButton(amount: Int) {
-        print(#line)
+      //  print(#line)
         grid.cellCount = numberOfCardsOnTable + amount
         for index in 0..<amount {
             let button = CardView.init(frame: grid[numberOfCardsOnTable +  index]!.insetBy(dx: 10, dy: 10))
-          //  button.isHidden = true
+            button.alpha = 0.5
             cardButtons.append(button)
             addSubview(button)
         }
         numberOfCardsOnTable += amount
+       // setNeedsLayout()
+        layoutIfNeeded()
     }
     
+    func displayCard(index:Int) {
+        cardButtons[index].alpha = 1
+    }
+    
+    // Remove all subviews
+    func clearTable() {
+        numberOfCardsOnTable = 0
+        cardButtons.forEach{$0.removeFromSuperview()}
+    }
     
     override func layoutSubviews() {
-        print(#line)
+   //     print(#line)
         super.layoutSubviews()
         grid.frame = self.bounds
         if (!cardButtons.isEmpty) {
