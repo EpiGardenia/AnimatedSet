@@ -39,7 +39,6 @@ class CardTableView: UIView {
                 withDuration: 0, delay: 0, options: .curveEaseIn,
                 animations: {
                     button.frame = dealFrame
-                    
             }
                 ,completion: { _ in
                     UIViewPropertyAnimator.runningPropertyAnimator(
@@ -66,11 +65,10 @@ class CardTableView: UIView {
         numberOfCardsOnTable = 0
         cardButtons.forEach{$0.removeFromSuperview()}
         cardButtons.removeAll()
-        
     }
     
     override func layoutSubviews() {
-        print("layoutSubviews")
+        //        print("layoutSubviews")
         super.layoutSubviews()
         updateSubviews()
         //        if (self.frame != viewFrame) {
@@ -80,7 +78,7 @@ class CardTableView: UIView {
     }
     
     private func updateSubviews() {
-        print("updateSubViews")
+        //        print("updateSubViews")
         let tableArea = self.viewWithTag(ViewName.CardTable.rawValue)
         grid.frame = tableArea!.frame
         if (!cardButtons.isEmpty) {
