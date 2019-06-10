@@ -16,11 +16,11 @@ class CardView: UIButton {
     override func draw(_ rect: CGRect) {
   
         if (isFaceUp == true) {
-                  print(#line)
+          //        print(#line)
             self.setTitle(String(number), for: .normal)
             self.setTitleColor(.yellow, for: .normal)
         } else {
-                  print(#line)
+          //        print(#line)
             self.setTitle(String("BACK"), for: .normal)
             let l = UIBezierPath(rect: CGRect(x: bounds.midX, y:bounds.midY , width: 10, height: 10))
             UIColor.white.setStroke()

@@ -25,13 +25,13 @@ class ViewController: UIViewController {
         CardTableView.clearTable()
         CardTableView.addCardButton(amount: nrOfInitialCards)
         CardTableView.grid.cellCount = CardTableView.cardButtons.count
-        AnimateDealOneCard(to: CardTableView.grid[0]! )
+      //  AnimateDealOneCard(to: CardTableView.grid[0]! )
         //AnimateDealCard(amount: nrOfInitialCards)
     }
     
     @IBAction func ClickDeal(_ sender: UIButton) {
         CardTableView.addCardButton(amount: 3)
-        AnimateDealOneCard(to: CardTableView.cardButtons[4].frame)
+    //    AnimateDealOneCard(to: CardTableView.cardButtons[4].frame)
     }
     
     private func AnimateDealOneCard(to dest: CGRect) {
