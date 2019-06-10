@@ -15,11 +15,11 @@ class CardTableView: UIView {
     var grid = Grid(layout: .aspectRatio(2))
     
     func addCardButton(amount: Int) {
-        print(description)
+        print(#line)
         grid.cellCount = numberOfCardsOnTable + amount
         for index in 0..<amount {
             let button = CardView.init(frame: grid[numberOfCardsOnTable +  index]!.insetBy(dx: 10, dy: 10))
-            button.backgroundColor = UIColor.purple
+          //  button.isHidden = true
             cardButtons.append(button)
             addSubview(button)
         }
@@ -28,13 +28,15 @@ class CardTableView: UIView {
     
     
     override func layoutSubviews() {
+        print(#line)
         super.layoutSubviews()
         grid.frame = self.bounds
         if (!cardButtons.isEmpty) {
             for index in 0..<numberOfCardsOnTable {
                 cardButtons[index].frame = grid[index]!.insetBy(dx: 10, dy: 10)
+                cardButtons[index].number = index
+                cardButtons[index].backgroundColor = UIColor.purple
             }
         }
-        
     }
 }

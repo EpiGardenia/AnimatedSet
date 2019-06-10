@@ -18,10 +18,11 @@ class ViewController: UIViewController {
     
     
     @IBAction func ClickNewGame(_ sender: UIButton) {
-
+        CardTableView.addCardButton(amount: 2)
     }
     
     @IBAction func ClickDeal(_ sender: UIButton) {
+        CardTableView.addCardButton(amount: 3)
     }
     
     
@@ -32,8 +33,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CardTableView.addCardButton(amount: 24)
-        // Do any additional setup after loading the view.
+
     }
 
 

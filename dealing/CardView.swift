@@ -14,13 +14,13 @@ class CardView: UIButton {
     var isFaceUp = false { didSet{ setNeedsDisplay()}}
     
     override func draw(_ rect: CGRect) {
-        self.setTitle("Hello", for: .normal)
+        print(#line)
+        self.setTitle(String(number), for: .normal)
         self.setTitleColor(.yellow, for: .normal)
-    
         let l = UIBezierPath(rect: CGRect(x: bounds.midX, y:bounds.midY , width: 10, height: 10))
-                UIColor.white.setStroke()
-                UIColor.gray.setFill()
-                l.stroke()
+        UIColor.white.setStroke()
+        UIColor.gray.setFill()
+        l.stroke()
         l.fill()
     }
 
