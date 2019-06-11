@@ -23,23 +23,27 @@ class CardTableView: UIView {
     var numberOfCardsOnTable = 0
     var grid = Grid(layout: .aspectRatio(2))
     
-    func addCardButton(contentOfCards:[SetGameCard]) {
+    func addCardButton(contentOfCards:[SetGameCard]) -> [CardView]{
         let amount = contentOfCards.count
+        var newButtons: [CardView] = []
          let dealFrame = self.viewWithTag(ViewName.Deal.rawValue)!.frame
         grid.cellCount = numberOfCardsOnTable + amount
         for index in 0..<amount {
             let newCell = grid[numberOfCardsOnTable +  index]!.insetBy(dx: 10, dy: 10)
-            dealOneCardAnimate(from: dealFrame, to: newCell, content: contentOfCards[index])
+            let button = dealOneCardAnimate(from: dealFrame, to: newCell, content: contentOfCards[index])
+            newButtons.append(button)
         }
         numberOfCardsOnTable += amount
+        
+        cardButtons.append(contentsOf: newButtons)
+        return newButtons
     }
     
     // send card from "from" to "dest" invisibly, and send it back with visibility
-    private func dealOneCardAnimate(from : CGRect, to dest: CGRect, content: SetGameCard){
+    private func dealOneCardAnimate(from : CGRect, to dest: CGRect, content: SetGameCard) -> CardView {
         let button = CardView.init(frame: dest, content: content)
-//        button.number = numberOfCardsOnTable + index
         button.backgroundColor = UIColor.purple
-        cardButtons.append(button)
+    //    cardButtons.append(button)
         addSubview(button)
         button.alpha = 0
         layoutIfNeeded()
@@ -67,6 +71,7 @@ class CardTableView: UIView {
                 )
         }
         )
+        return button
     }
     
     // Remove all subviews
