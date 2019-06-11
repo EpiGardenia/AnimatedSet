@@ -28,10 +28,14 @@ class CardView: UIButton {
     
     override func draw(_ rect: CGRect) {
         //        print("draw")
+        let roundedRect = UIBezierPath(rect: bounds)
         if (isFaceUp == true) {
+            UIColor.white.setFill()
+            roundedRect.fill()
             drawEachCard(card: cardContent!, frame: rect)
         } else {
-            self.backgroundColor = UIColor.blue
+            UIColor.purple.setFill()
+            roundedRect.fill()
         }
     }
     

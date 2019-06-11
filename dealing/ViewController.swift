@@ -17,16 +17,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var SetCountLabel: UILabel!
     
     let nrOfInitialCards = 1
+    lazy var setGame = SetGame()
     lazy var animator = UIDynamicAnimator(referenceView: view)
     lazy var cardBehavior = CardBehavior(in: animator)
     
     @IBAction func ClickNewGame(_ sender: UIButton) {
         CardTableView.clearTable()
-        CardTableView.addCardButton(amount: nrOfInitialCards)
+        let newCards = setGame.pickCards(of: nrOfInitialCards)
+        CardTableView.addCardButton(contentOfCards: newCards)
     }
     
     @IBAction func ClickDeal(_ sender: UIButton) {
-        CardTableView.addCardButton(amount: 3)
+        let newCards = setGame.pickCards(of: 3)
+        CardTableView.addCardButton(contentOfCards: newCards)
     }
     
     
