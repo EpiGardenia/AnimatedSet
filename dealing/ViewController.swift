@@ -16,12 +16,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var DealButton: UIButton!
     @IBOutlet weak var SetCountLabel: UILabel!
     
-    let nrOfInitialCards = 12
+    let nrOfInitialCards = 1
     lazy var animator = UIDynamicAnimator(referenceView: view)
     lazy var cardBehavior = CardBehavior(in: animator)
     
     @IBAction func ClickNewGame(_ sender: UIButton) {
-        CardTableView.ClearTable()
+        CardTableView.clearTable()
         CardTableView.addCardButton(amount: nrOfInitialCards)
     }
     
