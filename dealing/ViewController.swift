@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var DealButton: UIButton!
     @IBOutlet weak var SetCountLabel: UILabel!
     
-    let nrOfInitialCards = 1
+    let nrOfInitialCards = 12
     lazy var setGame = SetGame()
     lazy var animator = UIDynamicAnimator(referenceView: view)
     lazy var cardBehavior = CardBehavior(in: animator)
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
     @objc func buttonClicked (sender: UIButton) {
         if let card = sender as? CardView {
             if cardTableView.cardButtons.contains(card) {
-                tapAcard(cardbutton: card)
+               tapAcard(cardbutton: card)
             }
         } else if sender == NewGameButton {
             startNewGame()
@@ -74,23 +74,13 @@ class ViewController: UIViewController {
     }
     
     private func tapAcard (cardbutton: CardView) {
-        print("Hi")
+        let updatedCards = setGame.tappedCard(card: &cardbutton.cardContent!)
+        
+        for updateCard in updatedCards {
+            let toUpdateView = cardTableView.cardButtons.filter{$0.cardContent == updateCard}.first
+            toUpdateView?.cardContent?.updateStatus(newStatus: updateCard.status)
+        }
     }
-    
-    
-        
-//        if buttonList.contains(sender) {
-//            game.touchACard(of: game.cardsOnTable[buttonList.firstIndex(of: sender)!])
-//            paramsUpdate()
-//        } else if sender == DealThreeCardsButton! {
-//            deal3CardClickedAction()
-//        } else if sender == newGameButton! {
-//            initSetup()
-//        } else {
-//            assert(true)
-//        }
-        
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

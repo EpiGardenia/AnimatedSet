@@ -31,6 +31,7 @@ class CardTableView: UIView {
         for index in 0..<amount {
             let newCell = grid[numberOfCardsOnTable +  index]!.insetBy(dx: 10, dy: 10)
             let button = dealOneCardAnimate(from: dealFrame, to: newCell, content: contentOfCards[index])
+            
             newButtons.append(button)
         }
         numberOfCardsOnTable += amount

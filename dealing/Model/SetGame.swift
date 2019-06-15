@@ -12,18 +12,130 @@ class SetGame {
     
     lazy var allSetCards = getAllCards()
     private var cardsOnDeck : [SetGameCard] = []
-    var cardsOnTable : [SetGameCard] = []
+    var cardsOnTable: [SetGameCard] = []
+    var selectedCards: [SetGameCard] = []
     
     
     func pickCards(of number: Int) -> [SetGameCard] {
         var pickedCards: [SetGameCard] = []
         for _ in 0..<number {
             if let newCard = cardsOnDeck.randomElement() {
+                cardsOnDeck = cardsOnDeck.filter() {$0 != newCard}
                 pickedCards.append(newCard)
             }
         }
         cardsOnTable.append(contentsOf: pickedCards)
         return pickedCards
+    }
+    
+    // return all cards which have been changed status
+    func tappedCard(card: inout SetGameCard) -> [SetGameCard] {
+        var updatedCards: [SetGameCard] = []
+        // this is before 3rd card tappd
+        if selectedCards.count < 2 {
+            if selectedCards.contains(card) { // tap on a card previously tapped
+                card.status = .unselected
+                selectedCards.remove(at: selectedCards.firstIndex(of: card)!)
+            } else { // tap on a card not yet tapped
+                card.status = .selected
+                selectedCards.append(card)
+            }
+            updatedCards.append(card)
+        } else if selectedCards.count == 2 { // 3rd tap
+            if selectedCards.contains(card) { // tap on a card previously tapped
+                card.status = .unselected
+                selectedCards.remove(at: selectedCards.firstIndex(of: card)!)
+                updatedCards.append(card)
+            } else { // check if match
+                selectedCards.append(card)
+                if isValidSet(of: selectedCards) { // if match set
+                    // update selected cards to match
+                    for k in selectedCards {
+                       var j = k
+                        j.updateStatus(newStatus: .match)
+                        updatedCards.append(j)
+                    }
+                    // pick 3 more cards if not empty
+                    updatedCards.append(contentsOf: pickCards(of: 3))
+                } else { // not match
+                    for k in selectedCards {
+                        var j = k
+                        j.updateStatus(newStatus: .notMatch)
+                        updatedCards.append(j)
+                    }
+                }
+            
+            
+        }
+        } else if selectedCards.count == 3 { // 4th tap, remove unmatched
+            for k in selectedCards {
+                var j = k
+                j.updateStatus(newStatus: .unselected)
+                updatedCards.append(j)
+            }
+            selectedCards.removeAll()
+            card.updateStatus(newStatus: .selected)
+            selectedCards.append(card)
+            updatedCards.append(card)
+        }
+        
+        
+        
+        
+        return updatedCards
+    }
+//
+//        if selectedCards.count == 0 {
+//            card.status = .selected
+//            selectedCards.append(card)
+//            return [card]
+//        } else if selectedCards.contains(card){
+//            card.status = .unselected
+//            selectedCards.remove(at: selectedCards.firstIndex(of: card)!)
+//            return [card]
+//        } else if selectedCards.count == 3 {
+//            selectedCards[0].status = .unselected
+//            selectedCards[1].status = .unselected
+//            selectedCards[2].status = .unselected
+//            selectedCards.removeAll()
+//            card.status = .selected
+//            selectedCards.append(card)
+//        } else if selectedCards.count == 2 {
+//            selectedCards.append(card)
+//            if isValidSet(of: selectedCards) {
+//                card.status = .match
+//                selectedCards[0].status = .match
+//            } else {
+//                card.status = .unmatch
+//                selectedCards[0].status = .unmatch
+//                selectedCards[1].status = .unmatch
+//
+//            }
+//        } else {
+//            // the second card
+//            card.status = .selected
+//            selectedCards.append(card)
+//        }
+        
+    
+    
+    func checkIfMatch(_: SetGameCard) -> Bool {
+        
+        return true
+    }
+    
+    
+    private func isValidSet(of cards : [SetGameCard]) -> Bool {
+        return isAttributeValid(cards.compactMap{$0.ofColor}) && isAttributeValid(cards.compactMap{$0.ofNumber}) && isAttributeValid(cards.compactMap{$0.ofShading}) && isAttributeValid(cards.compactMap{$0.ofSymbol})
+    }
+    
+    private func allDiff<T:Equatable>(_ cardAttribute : [T]) -> Bool {
+        let rest = cardAttribute.dropFirst()
+        return rest.isEmpty ? true : !rest.contains(cardAttribute.first!) && allDiff(Array(rest))
+    }
+    
+    private func isAttributeValid<T:Equatable>(_ cardAttribute : [T]) -> Bool {
+        return cardAttribute.allSatisfy{$0 == cardAttribute.first} || allDiff(cardAttribute)
     }
     
     private func getAllCards() -> [SetGameCard]{
@@ -32,7 +144,7 @@ class SetGame {
             for shading in SetGameCard.SetShading.allCases {
                 for color in SetGameCard.SetColor.allCases {
                     for symbol in SetGameCard.SetSymbol.allCases {
-                        let card = SetGameCard(ofNumber: number, ofShading: shading, ofColor: color, ofSymbol:symbol)
+                        let card = SetGameCard(ofNumber: number, ofShading: shading, ofColor: color, ofSymbol:symbol, status: .unselected)
                         allCards.append(card)
                     }
                 }
@@ -41,9 +153,10 @@ class SetGame {
         return allCards
     }
     
+    
     init() {
         cardsOnDeck = allSetCards
-       // selectedCards.removeAll()
+        selectedCards.removeAll()
        // score = 0
     }
 }

@@ -9,21 +9,11 @@
 import UIKit
 
 class CardView: UIButton {
-    //   SetGameCard(ofNumber: number, ofShading: shading, ofColor: color, ofSymbol:symbol)
-    
-    //  var number = 0 { didSet{ setNeedsDisplay()}}
     var isFaceUp = false { didSet{ setNeedsDisplay()}}
-    
-    //    var shading : SetGameCard.SetShading? = nil
-    //    var number : SetGameCard.SetNumber? = nil
-    //    var color : SetGameCard.SetColor? = nil
-    //    var option : SetGameCard.SetOption? = nil
-    //    var symbol : SetGameCard.SetSymbol? = nil
-    var cardContent : SetGameCard? = nil
+    var cardContent : SetGameCard? = nil { didSet{ setNeedsDisplay()}}
     convenience init(frame: CGRect, content: SetGameCard) {
         self.init()
         cardContent = content
-        
     }
     
     override func draw(_ rect: CGRect) {
@@ -50,8 +40,29 @@ class CardView: UIButton {
         roundedRect.lineWidth = 2.0
         roundedRect.stroke()
         drawPattern(card: card, innerFrame: frame.zoom(by: CGFloat(SizeRatio.patternToCardRectRatio)))
+        drawStatus()
     }
     
+    
+    func drawStatus() {
+        print(self.cardContent?.description as Any)
+        let highlightPath = UIBezierPath(rect: bounds)
+        highlightPath.lineWidth = bounds.width * 0.1
+        switch self.cardContent!.status {
+        case .unselected: break
+        case .selected:
+            UIColor.yellow.setStroke()
+            highlightPath.stroke()
+        case .match:
+            UIColor.green.setStroke()
+            highlightPath.stroke()
+        case .notMatch:
+            UIColor.red.setStroke()
+            highlightPath.stroke()
+        case .inDeck:
+            assertionFailure(description)
+        }
+    }
     
     // draw setGame patterns of card within innerFrame
     private func drawPattern(card: SetGameCard, innerFrame : CGRect) {
