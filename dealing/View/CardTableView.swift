@@ -22,9 +22,7 @@ class CardTableView: UIView {
     lazy var cardButtons = [CardView]()
     var numberOfCardsOnTable = 0
     var grid = Grid(layout: .aspectRatio(2))
-    
-///    lazy var dealFrame = viewWithTag(ViewName.Deal.rawValue)!.frame
-//
+
     func addAndDealCards(contentOfCards:[SetGameCard]) -> [CardView]{
         var newCells: [CGRect] = []
         let amount = contentOfCards.count
@@ -118,9 +116,10 @@ class CardTableView: UIView {
             withDuration: 0.5, delay: 0, options: .curveEaseInOut,
             animations: {
                 matchedCardButtons.forEach{
+                    $0.alpha = 1
                     $0.frame = setFrame
                 }},
-            completion: {_ in matchedCardButtons.forEach{$0.alpha = 0}}
+            completion: {_ in matchedCardButtons.forEach{$0.alpha = 1}}
     )
         // update cardbuttons
         if newCards == nil {
@@ -130,7 +129,7 @@ class CardTableView: UIView {
             
             for (index, cardData) in cardWithPosPair {
                 cardButtons[index].cardContent = cardData
-                cardButtons[index].alpha = 0
+                cardButtons[index].alpha = 0.1
                 // Deal card animate
                 dealOneCardAnimate(cardButton: cardButtons[index])
             }
@@ -140,14 +139,26 @@ class CardTableView: UIView {
     func dealOneCardAnimate(cardButton: CardView) {
         let dealFrame = self.viewWithTag(ViewName.Deal.rawValue)!.frame
         let posFrame = cardButton.frame
-        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0, delay: 0, options: [], animations: {cardButton.frame = dealFrame}, completion: { _ in
-            UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
-                cardButton.frame = posFrame
-                cardButton.alpha = 1
-            }, completion:{ _ in
-                UIView.transition(with: cardButton, duration: 0.4, options: .transitionFlipFromLeft, animations: {cardButton.isFaceUp = true})
-            }
-        )
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0, delay: 0, options: [],
+            animations: {
+                cardButton.frame = dealFrame
+                cardButton.isFaceUp = false},
+            completion: { _ in
+                UIViewPropertyAnimator.runningPropertyAnimator(
+                    withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
+                        cardButton.frame = posFrame
+                        cardButton.alpha = 1
+                        self.setNeedsLayout()
+                }, completion:{ _ in
+                    UIView.transition(
+                        with: cardButton, duration: 0.4, options: .transitionFlipFromLeft,
+                        animations: {
+                            cardButton.isFaceUp = true
+                            self.setNeedsLayout()
+                    })
+                }
+                )
         })
     }
     

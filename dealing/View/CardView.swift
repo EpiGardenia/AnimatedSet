@@ -21,6 +21,7 @@ class CardView: UIButton {
         //        print("draw")
         let roundedRect = UIBezierPath(rect: bounds)
         if (isFaceUp == true) {
+            print("CardView.isFaceUp")
             UIColor.white.setFill()
             roundedRect.fill()
             drawEachCard(card: cardContent!, frame: rect)
