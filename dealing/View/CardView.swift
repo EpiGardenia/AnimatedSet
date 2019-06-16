@@ -21,7 +21,7 @@ class CardView: UIButton {
         //        print("draw")
         let roundedRect = UIBezierPath(rect: bounds)
         if (isFaceUp == true) {
-            print("CardView.isFaceUp")
+           // print("CardView.isFaceUp")
             UIColor.white.setFill()
             roundedRect.fill()
             drawEachCard(card: cardContent!, frame: rect)
@@ -47,7 +47,7 @@ class CardView: UIButton {
     
     
     func drawStatus() {
-        print(self.cardContent?.description as Any)
+       // print(self.cardContent?.description as Any)
         let highlightPath = UIBezierPath(rect: bounds)
         highlightPath.lineWidth = bounds.width * 0.1
         switch self.cardContent!.status {

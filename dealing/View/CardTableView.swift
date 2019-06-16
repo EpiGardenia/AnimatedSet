@@ -54,54 +54,18 @@ class CardTableView: UIView {
 
 
     func drawACardButtonOnFrame(draw cardContent: SetGameCard, on frame: CGRect) -> CardView {
-
         let button = CardView.init(frame: frame, content: cardContent)
         button.backgroundColor = UIColor.purple
         addSubview(button)
-        button.alpha = 0.5
+        button.alpha = 0.1
         print("drawAcardButtonOnFrame,frame:" + frame.debugDescription + "b.frame  " + button.frame.debugDescription)
       //  layoutIfNeeded()
         return button
     }
-//
-    // send card from "from" to "dest" invisibly, and send it back with visibility
-//    private func dealOneCardAnimate(from : CGRect, to dest: CGRect, content: SetGameCard) -> CardView {
-//        print("dealOneCardAnimate: from" + from.debugDescription + "to:" + dest.debugDescription)
-//        let button = drawACardButtonOnFrame(draw: content, on: dest)
-//          print("dealOneCardAnimate: button" + button.frame.debugDescription)
-//        UIViewPropertyAnimator.runningPropertyAnimator(
-//            withDuration: 0, delay: 0, options: .curveEaseIn,
-//            animations: {
-//                button.alpha = 0.4
-//                button.frame = from
-//                print("dealOneCardAnimate: button.newframe" + button.frame.debugDescription)
-//                self.setNeedsLayout()
-//        }
-////            ,completion: { _ in
-////                UIViewPropertyAnimator.runningPropertyAnimator(
-////                    withDuration: 0.5, delay: 0.4, options: [],
-////                    animations: {
-////                      //  print(#line)
-////                        button.alpha = 1;
-////                        button.frame = dest
-////                },
-////                    completion: { _ in
-////                        UIView.transition(with: button, duration: 0.5, options: .transitionFlipFromLeft,
-////                                          animations: {
-////                                            button.isFaceUp = true
-////                        })
-////                }
-////                )
-////        }
-//        )
-//        return button
-//    }
     
     // new Cards can be empty
     func updateMatchedSubviews(matchedCards:[SetGameCard], newCards: [SetGameCard]?) {
-        
         let setFrame = self.viewWithTag(ViewName.Set.rawValue)!.frame
-        
         // Get indices of matchcards in cardsbuttons
         var matchedIndices: [Int] = []
         var matchedCardButtons: [CardView] = []
@@ -140,26 +104,39 @@ class CardTableView: UIView {
         let dealFrame = self.viewWithTag(ViewName.Deal.rawValue)!.frame
         let posFrame = cardButton.frame
         UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0, delay: 0, options: [],
+            withDuration: 0, delay: 0, options: .transitionFlipFromLeft,
             animations: {
-                cardButton.frame = dealFrame
-                cardButton.isFaceUp = false},
-            completion: { _ in
-                UIViewPropertyAnimator.runningPropertyAnimator(
-                    withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
-                        cardButton.frame = posFrame
-                        cardButton.alpha = 1
-                        self.setNeedsLayout()
-                }, completion:{ _ in
-                    UIView.transition(
-                        with: cardButton, duration: 0.4, options: .transitionFlipFromLeft,
-                        animations: {
-                            cardButton.isFaceUp = true
-                            self.setNeedsLayout()
-                    })
-                }
-                )
-        })
+                cardButton.alpha = 0.2
+                print("cardButton.frame:" + cardButton.frame.debugDescription + "dealFrame=" + dealFrame.debugDescription)
+//                cardButton.frame = dealFrame
+             //   cardButton.isFaceUp = false
+                 cardButton.frame = dealFrame
+                 cardButton.alpha = 1
+                cardButton.setTitle("A", for: .normal)
+                self.setNeedsLayout()
+                 print("cardButton.frame:" + cardButton.frame.debugDescription)
+        }
+//            ,
+//            completion: { _ in
+//                UIViewPropertyAnimator.runningPropertyAnimator(
+//                    withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
+//                        print("cardButton.frame:" + cardButton.frame.debugDescription + "posFrame=" + posFrame.debugDescription)
+//                                  cardButton.alpha = 1
+//                        cardButton.frame = posFrame
+//
+//
+//                        self.setNeedsLayout()
+//                }, completion:{ _ in
+//                    UIView.transition(
+//                        with: cardButton, duration: 0.4, options: .transitionFlipFromLeft,
+//                        animations: {
+//                            cardButton.isFaceUp = true
+//                            self.setNeedsLayout()
+//                    })
+//                }
+//                )
+//        }
+        )
     }
     
     
