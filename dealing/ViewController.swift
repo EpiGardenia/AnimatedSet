@@ -88,7 +88,7 @@ class ViewController: UIViewController {
             // flyout and deal new cards
             cardTableView.updateMatchedSubviews(
                 matchedCards: Array(updatedCards[0...2]),
-                newCards: Array( updatedCards[3...5]))
+                newCards: updatedCards.count == 6 ? Array(updatedCards[3...5]) : nil)
         }
     }
     
