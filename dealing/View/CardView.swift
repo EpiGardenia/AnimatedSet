@@ -14,6 +14,7 @@ class CardView: UIButton {
     convenience init(frame: CGRect, content: SetGameCard) {
         self.init()
         cardContent = content
+        self.frame = frame
     }
     
     override func draw(_ rect: CGRect) {

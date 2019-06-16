@@ -9,12 +9,10 @@
 import Foundation
 
 class SetGame {
-    
     lazy var allSetCards = getAllCards()
     private var cardsOnDeck : [SetGameCard] = []
     var cardsOnTable: [SetGameCard] = []
     var selectedCards: [SetGameCard] = []
-    
     
     func pickCards(of number: Int) -> [SetGameCard] {
         var pickedCards: [SetGameCard] = []
@@ -64,8 +62,6 @@ class SetGame {
                         updatedCards.append(j)
                     }
                 }
-            
-            
         }
         } else if selectedCards.count == 3 { // 4th tap, remove unmatched
             for k in selectedCards {
@@ -78,50 +74,7 @@ class SetGame {
             selectedCards.append(card)
             updatedCards.append(card)
         }
-        
-        
-        
-        
         return updatedCards
-    }
-//
-//        if selectedCards.count == 0 {
-//            card.status = .selected
-//            selectedCards.append(card)
-//            return [card]
-//        } else if selectedCards.contains(card){
-//            card.status = .unselected
-//            selectedCards.remove(at: selectedCards.firstIndex(of: card)!)
-//            return [card]
-//        } else if selectedCards.count == 3 {
-//            selectedCards[0].status = .unselected
-//            selectedCards[1].status = .unselected
-//            selectedCards[2].status = .unselected
-//            selectedCards.removeAll()
-//            card.status = .selected
-//            selectedCards.append(card)
-//        } else if selectedCards.count == 2 {
-//            selectedCards.append(card)
-//            if isValidSet(of: selectedCards) {
-//                card.status = .match
-//                selectedCards[0].status = .match
-//            } else {
-//                card.status = .unmatch
-//                selectedCards[0].status = .unmatch
-//                selectedCards[1].status = .unmatch
-//
-//            }
-//        } else {
-//            // the second card
-//            card.status = .selected
-//            selectedCards.append(card)
-//        }
-        
-    
-    
-    func checkIfMatch(_: SetGameCard) -> Bool {
-        
-        return true
     }
     
     

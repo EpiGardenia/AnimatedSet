@@ -37,7 +37,7 @@ class ViewController: UIViewController {
     
     private func createCardButtons(of number: Int) {
         let newCards = setGame.pickCards(of: number)
-        let newButtons = cardTableView.addCardButton(contentOfCards: newCards)
+        let newButtons = cardTableView.addAndDealCards(contentOfCards: newCards)
         newButtons.forEach{$0.addTarget(self, action: #selector(buttonClicked(sender:)), for: .touchUpInside)}
     }
     
@@ -73,12 +73,22 @@ class ViewController: UIViewController {
         }
     }
     
+    
     private func tapAcard (cardbutton: CardView) {
+        // get cards to be updated
         let updatedCards = setGame.tappedCard(card: &cardbutton.cardContent!)
+        // update view by change the card content
         
-        for updateCard in updatedCards {
-            let toUpdateView = cardTableView.cardButtons.filter{$0.cardContent == updateCard}.first
-            toUpdateView?.cardContent?.updateStatus(newStatus: updateCard.status)
+        if updatedCards.first?.status != .match {
+            for updateCard in updatedCards {
+                let toUpdateView = cardTableView.cardButtons.filter{$0.cardContent == updateCard}.first
+                toUpdateView?.cardContent?.updateStatus(newStatus: updateCard.status)
+            }
+        } else {
+            // flyout and deal new cards
+            cardTableView.updateMatchedSubviews(
+                matchedCards: Array(updatedCards[0...2]),
+                newCards: Array( updatedCards[3...5]))
         }
     }
     
