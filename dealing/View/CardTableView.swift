@@ -6,6 +6,7 @@
 //  Copyright © 2019 T . All rights reserved.
 //
 
+
 import UIKit
 
 class CardTableView: UIView {
@@ -60,8 +61,6 @@ class CardTableView: UIView {
         button.isFaceUp = false
         addSubview(button)
         button.alpha = 0
-      //  print("drawAcardButtonOnFrame,frame:" + frame.debugDescription + "b.frame  " + button.frame.debugDescription)
-        //  layoutIfNeeded()
         return button
     }
     
@@ -104,6 +103,8 @@ class CardTableView: UIView {
                     self.cardButtons.remove(at: matchedIndices[0])
                     self.cardButtons.remove(at: matchedIndices[1]-1)
                     self.cardButtons.remove(at: matchedIndices[2]-2)
+                    self.grid.cellCount -= 3
+                    self.setNeedsLayout()
                 }
                 copiedMatchCardsForAnimate.removeAll()
                 if let setLabel = self.viewWithTag(ViewName.Set.rawValue) as? UILabel {
@@ -166,7 +167,6 @@ class CardTableView: UIView {
     }
     
     private func updateSubviews() {
-        
         let tableArea = self.viewWithTag(ViewName.CardTable.rawValue)
         grid.frame = tableArea!.frame
         if (!cardButtons.isEmpty) {
