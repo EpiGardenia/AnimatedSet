@@ -43,16 +43,19 @@ class ViewController: UIViewController {
     
     
     private func startNewGame() {
+        setGame = SetGame()
         cardTableView.clearTable()
         createCardButtons(of: nrOfInitialCards)
+        SetCountLabel.text = "Set: 0"
+        DealButton.isEnabled = true
     }
     
     @IBAction func ClickDeal(_ sender: UIButton) {
-       dealThree()
+        dealThree()
     }
     
     @objc func deal3CardClickedActionObjc() {
-      dealThree()
+        dealThree()
     }
     
     private func dealThree() {
@@ -64,7 +67,7 @@ class ViewController: UIViewController {
     @objc func buttonClicked (sender: UIButton) {
         if let card = sender as? CardView {
             if cardTableView.cardButtons.contains(card) {
-               tapAcard(cardbutton: card)
+                tapAcard(cardbutton: card)
             }
         } else if sender == NewGameButton {
             startNewGame()
@@ -77,8 +80,7 @@ class ViewController: UIViewController {
     private func tapAcard (cardbutton: CardView) {
         // get cards to be updated
         let updatedCards = setGame.tappedCard(card: &cardbutton.cardContent!)
-        // update view by change the card content
-        
+        // update view by change the card content        
         if updatedCards.first?.status != .match {
             for updateCard in updatedCards {
                 let toUpdateView = cardTableView.cardButtons.filter{$0.cardContent == updateCard}.first
@@ -88,7 +90,10 @@ class ViewController: UIViewController {
             // flyout and deal new cards
             cardTableView.updateMatchedSubviews(
                 matchedCards: Array(updatedCards[0...2]),
-                newCards: updatedCards.count == 6 ? Array(updatedCards[3...5]) : nil)
+                newCards: updatedCards.count == 6 ? Array(updatedCards[3...5]) : nil, setCount: setGame.setCount)
+            if setGame.cardsOnDeck.count == 0 {
+                DealButton.isEnabled = false
+            }
         }
     }
     

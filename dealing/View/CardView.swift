@@ -21,10 +21,10 @@ class CardView: UIButton {
         //        print("draw")
         let roundedRect = UIBezierPath(rect: bounds)
         if (isFaceUp == true) {
-           // print("CardView.isFaceUp")
+            // print("CardView.isFaceUp")
             UIColor.white.setFill()
             roundedRect.fill()
-            drawEachCard(card: cardContent!, frame: rect)
+            drawEachCard(card: cardContent!)
         } else {
             UIColor.purple.setFill()
             roundedRect.fill()
@@ -33,21 +33,21 @@ class CardView: UIButton {
     
     /* Old code */
     // draw pattern of each card
-    private func drawEachCard(card: SetGameCard, frame: CGRect) {
-        assert(!frame.isEmpty)
+    private func drawEachCard(card: SetGameCard) {
+        assert(!self.frame.isEmpty)
         self.backgroundColor = UIColor.white
         // round the card
-        let roundedRect = UIBezierPath(rect: frame.zoom(by: 0.97))
+        let roundedRect = UIBezierPath(rect: bounds)
         UIColor.gray.setStroke()
-        roundedRect.lineWidth = 2.0
+        roundedRect.lineWidth = 4.0
         roundedRect.stroke()
-        drawPattern(card: card, innerFrame: frame.zoom(by: CGFloat(SizeRatio.patternToCardRectRatio)))
+        drawPattern(card: card, innerBound: bounds.zoom(by: CGFloat(SizeRatio.patternToCardRectRatio)))
         drawStatus()
     }
     
-    
+    // Highlight for different status: selected, match, unselected, nomatch
     func drawStatus() {
-       // print(self.cardContent?.description as Any)
+        // print(self.cardContent?.description as Any)
         let highlightPath = UIBezierPath(rect: bounds)
         highlightPath.lineWidth = bounds.width * 0.1
         switch self.cardContent!.status {
@@ -67,8 +67,8 @@ class CardView: UIButton {
     }
     
     // draw setGame patterns of card within innerFrame
-    private func drawPattern(card: SetGameCard, innerFrame : CGRect) {
-        let ranges = getRangeForEachSign(num : card.ofNumber, frame: innerFrame)
+    private func drawPattern(card: SetGameCard, innerBound : CGRect) {
+        let ranges = getRangeForEachSign(num : card.ofNumber, bound: innerBound)
         let pathes = drawSymbol(of: card.ofSymbol, in : ranges)
         var pathToRange : [UIBezierPath: CGRect] = [:]
         assert(ranges.count == pathes.count)
@@ -154,19 +154,19 @@ class CardView: UIButton {
         return pathes
     }
     
-    private func getRangeForEachSign(num: SetGameCard.SetNumber, frame: CGRect) -> [CGRect] {
-        let newWidth = frame.width/4
+    private func getRangeForEachSign(num: SetGameCard.SetNumber, bound: CGRect) -> [CGRect] {
+        let newWidth = bound.width/4
         var result : [CGRect] = []
         switch num {
         case .One:
-            result.append(CGRect(x: frame.midX - newWidth/2, y: frame.minY, width: newWidth, height: frame.height))
+            result.append(CGRect(x: bound.midX - newWidth/2, y: bound.minY, width: newWidth, height: bound.height))
         case .two:
-            result.append(CGRect(x: frame.width/4 + frame.minX - newWidth/2, y: frame.minY, width: newWidth, height: frame.height))
-            result.append(CGRect(x: 3 * frame.width/4 + frame.minX - newWidth/2, y: frame.minY, width: newWidth, height: frame.height))
+            result.append(CGRect(x: bound.width/4 + bound.minX - newWidth/2, y: bound.minY, width: newWidth, height: bound.height))
+            result.append(CGRect(x: 3 * bound.width/4 + bound.minX - newWidth/2, y: bound.minY, width: newWidth, height: bound.height))
         case .three:
-            result.append(CGRect(x: frame.minX, y: frame.minY, width: newWidth, height: frame.height))
-            result.append(CGRect(x: frame.midX - newWidth/2, y: frame.minY, width: newWidth, height: frame.height))
-            result.append(CGRect(x: frame.maxX - newWidth, y: frame.minY, width: newWidth, height: frame.height))
+            result.append(CGRect(x: bound.minX, y: bound.minY, width: newWidth, height: bound.height))
+            result.append(CGRect(x: bound.midX - newWidth/2, y: bound.minY, width: newWidth, height: bound.height))
+            result.append(CGRect(x: bound.maxX - newWidth, y: bound.minY, width: newWidth, height: bound.height))
         }
         return result
     }

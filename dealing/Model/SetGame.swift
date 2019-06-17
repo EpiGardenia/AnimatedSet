@@ -10,9 +10,10 @@ import Foundation
 
 class SetGame {
     lazy var allSetCards = getAllCards()
-    private var cardsOnDeck : [SetGameCard] = []
+    var cardsOnDeck : [SetGameCard] = []
     var cardsOnTable: [SetGameCard] = []
     var selectedCards: [SetGameCard] = []
+    var setCount = 0
     
     func pickCards(of number: Int) -> [SetGameCard] {
         var pickedCards: [SetGameCard] = []
@@ -46,15 +47,16 @@ class SetGame {
                 updatedCards.append(card)
             } else { // check if match
                 selectedCards.append(card)
-                if isValidSet(of: selectedCards) { // if match set
+                if isValidSet(of: selectedCards){ // if match set
                     // update selected cards to match
                     for k in selectedCards {
-                       var j = k
+                        var j = k
                         j.updateStatus(newStatus: .match)
                         updatedCards.append(j)
                     }
                     // pick 3 more cards if not empty
                     updatedCards.append(contentsOf: pickCards(of: 3))
+                    setCount += 1
                 } else { // not match
                     for k in selectedCards {
                         var j = k
@@ -62,7 +64,7 @@ class SetGame {
                         updatedCards.append(j)
                     }
                 }
-        }
+            }
         } else if selectedCards.count == 3 { // 4th tap, remove unmatched
             for k in selectedCards {
                 var j = k
@@ -80,7 +82,7 @@ class SetGame {
     
     private func isValidSet(of cards : [SetGameCard]) -> Bool {
         return true
-//        return isAttributeValid(cards.compactMap{$0.ofColor}) && isAttributeValid(cards.compactMap{$0.ofNumber}) && isAttributeValid(cards.compactMap{$0.ofShading}) && isAttributeValid(cards.compactMap{$0.ofSymbol})
+        //        return isAttributeValid(cards.compactMap{$0.ofColor}) && isAttributeValid(cards.compactMap{$0.ofNumber}) && isAttributeValid(cards.compactMap{$0.ofShading}) && isAttributeValid(cards.compactMap{$0.ofSymbol})
     }
     
     private func allDiff<T:Equatable>(_ cardAttribute : [T]) -> Bool {
@@ -111,7 +113,7 @@ class SetGame {
     init() {
         cardsOnDeck = allSetCards
         selectedCards.removeAll()
-       // score = 0
+        setCount = 0
     }
 }
 

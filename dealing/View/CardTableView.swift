@@ -22,19 +22,19 @@ class CardTableView: UIView {
     lazy var cardButtons = [CardView]()
     var numberOfCardsOnTable = 0
     var grid = Grid(layout: .aspectRatio(2))
-
+    
     func addAndDealCards(contentOfCards:[SetGameCard]) -> [CardView]{
         var newCells: [CGRect] = []
         let amount = contentOfCards.count
         grid.cellCount = numberOfCardsOnTable + amount
         for index in 0..<amount {
-                newCells.append(grid[numberOfCardsOnTable +  index]!.insetBy(dx: 10, dy: 10))
+            newCells.append(grid[numberOfCardsOnTable +  index]!.insetBy(dx: 10, dy: 10))
         }
         let newButtons = addCardButtons(contents: contentOfCards, on: newCells)
         numberOfCardsOnTable += amount
         return newButtons
     }
-
+    
     func addCardButtons(contents cards: [SetGameCard], on frames: [CGRect]) -> [CardView] {
         var result: [CardView] = []
         let cardPosPair = zip(cards, frames)
@@ -43,17 +43,17 @@ class CardTableView: UIView {
         }
         return result
     }
-
-
+    
+    
     func addACardButton(content card:SetGameCard, on frame: CGRect) -> CardView {
-      let cardButton = drawACardButtonOnFrame(draw: card, on: frame)
+        let cardButton = drawACardButtonOnFrame(draw: card, on: frame)
         layoutIfNeeded()
-         dealOneCardAnimate(cardButton: cardButton)
+        dealOneCardAnimate(cardButton: cardButton)
         cardButtons.append(cardButton)
         return cardButton
     }
-
-
+    
+    
     func drawACardButtonOnFrame(draw cardContent: SetGameCard, on frame: CGRect) -> CardView {
         let button = CardView.init(frame: frame, content: cardContent)
         button.backgroundColor = UIColor.purple
@@ -61,39 +61,41 @@ class CardTableView: UIView {
         addSubview(button)
         button.alpha = 0
         print("drawAcardButtonOnFrame,frame:" + frame.debugDescription + "b.frame  " + button.frame.debugDescription)
-      //  layoutIfNeeded()
+        //  layoutIfNeeded()
         return button
     }
     
     // new Cards can be empty
-    func updateMatchedSubviews(matchedCards:[SetGameCard], newCards: [SetGameCard]?) {
+    func updateMatchedSubviews(matchedCards:[SetGameCard], newCards: [SetGameCard]?, setCount: Int) {
         let setFrame = self.viewWithTag(ViewName.Set.rawValue)!.frame
         // Get indices of matchcards in cardsbuttons
         var matchedIndices: [Int] = []
-        var matchedCardButtons: [CardView] = []
+        var copiedMatchCardsForAnimate: [CardView] = []
         for (matchedCard, NewCardIndex) in zip(matchedCards, 0...2) {
-            let index = cardButtons.firstIndex{$0.cardContent == matchedCard}!
-            matchedIndices.append(index)
-            let copyButton = CardView.init(frame: cardButtons[index].frame, content: cardButtons[index].cardContent!)
-            copyButton.isFaceUp = true
-            addSubview(copyButton)
-            matchedCardButtons.append(copyButton)
-        
-            if newCards != nil {
-                cardButtons[index].cardContent = newCards![NewCardIndex]
+            if let index = cardButtons.firstIndex(where: {$0.cardContent == matchedCard}) {
+                matchedIndices.append(index)
+                let copyButton = CardView.init(frame: cardButtons[index].frame, content: cardButtons[index].cardContent!)
+                copyButton.isFaceUp = true
+                addSubview(copyButton)
+                copiedMatchCardsForAnimate.append(copyButton)
                 cardButtons[index].alpha = 0
+                if newCards != nil {
+                    cardButtons[index].cardContent = newCards![NewCardIndex]
+                }
+            } else {
+                assertionFailure("can't find matching card in cardsButton")
             }
         }
-   
+        
         // Animate matchedCards to set label
         UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.5, delay: 0.3, options: .curveEaseInOut,
+            withDuration: 0.3, delay: 0.2, options: .curveEaseInOut,
             animations: {
-                matchedCardButtons.forEach{
-                    $0.alpha = 1
-                    $0.frame = setFrame
+                copiedMatchCardsForAnimate.forEach{
+                    $0.alpha = 0.7
+                    $0.center = CGPoint(x: setFrame.midX, y: setFrame.midY)
                 }},
-            completion: {_ in matchedCardButtons.forEach{$0.alpha = 0}
+            completion: {_ in copiedMatchCardsForAnimate.forEach{$0.alpha = 0}
                 if newCards != nil {
                     _ = matchedIndices.map{ self.dealOneCardAnimate(cardButton:self.cardButtons[$0])}
                 } else {
@@ -103,10 +105,13 @@ class CardTableView: UIView {
                     self.cardButtons.remove(at: matchedIndices[1]-1)
                     self.cardButtons.remove(at: matchedIndices[2]-2)
                 }
-                matchedCardButtons.removeAll()
+                copiedMatchCardsForAnimate.removeAll()
+                if let setLabel = self.viewWithTag(ViewName.Set.rawValue) as? UILabel {
+                    setLabel.text = "Set: \(setCount)"
+                }
         }
-    )
- 
+        )
+        
     }
     
     func dealOneCardAnimate(cardButton: CardView) {
@@ -124,7 +129,7 @@ class CardTableView: UIView {
                     withDuration: 0.5, delay: 0.4, options: [], animations: {
                         cardButton.alpha = 1
                         cardButton.frame = posFrame
-
+                        
                 }, completion:{ _ in
                     UIView.transition(
                         with: cardButton, duration: 0.4, options: .transitionFlipFromLeft,
@@ -142,19 +147,8 @@ class CardTableView: UIView {
         if let button = cardButtons.filter({$0.cardContent == card}).first {
             return button
         }
-
         return nil
     }
-    
-    //    private func findFrame(of card: SetGameCard) -> CGRect? {
-    //        var frame: CGRect?
-//
-//        if let cardButton = cardButtons.filter({$0.cardContent == card}).first {
-//          frame = cardButton.frame
-//        }
-//
-//        return frame
-//    }
     
     
     // Remove all subviews
@@ -169,23 +163,16 @@ class CardTableView: UIView {
         //        print("layoutSubviews")
         super.layoutSubviews()
         updateSubviews()
-        //        if (self.frame != viewFrame) {
-        //            updateSubviews()
-        //            viewFrame = self.frame
-        //        }
     }
     
     private func updateSubviews() {
-               print("updateSubViews")
+        
         let tableArea = self.viewWithTag(ViewName.CardTable.rawValue)
         grid.frame = tableArea!.frame
         if (!cardButtons.isEmpty) {
             for index in 0..<cardButtons.count {
                 cardButtons[index].frame = grid[index]!.insetBy(dx: 10, dy: 10)
-               // cardButtons[index].number = index
             }
         }
     }
-    
- 
 }
