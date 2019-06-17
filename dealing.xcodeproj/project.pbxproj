@@ -67,6 +67,18 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		1ACA9A5A22B7E04600A042F7 /* SetGame */ = {
+			isa = PBXGroup;
+			children = (
+				1AE11A6C22AC433F0082F409 /* ViewController.swift */,
+				1AE11A8A22AE3D980082F409 /* CardBehavior.swift */,
+				1AE11A8822AD2E9A0082F409 /* Grid.swift */,
+				1ACA9A5622AF937100A042F7 /* View */,
+				1ACA9A5722AF937C00A042F7 /* Model */,
+			);
+			path = SetGame;
+			sourceTree = "<group>";
+		};
 		1AE11A5E22AC433F0082F409 = {
 			isa = PBXGroup;
 			children = (
@@ -86,11 +98,7 @@
 		1AE11A6922AC433F0082F409 /* dealing */ = {
 			isa = PBXGroup;
 			children = (
-				1ACA9A5722AF937C00A042F7 /* Model */,
-				1ACA9A5622AF937100A042F7 /* View */,
-				1AE11A6C22AC433F0082F409 /* ViewController.swift */,
-				1AE11A8A22AE3D980082F409 /* CardBehavior.swift */,
-				1AE11A8822AD2E9A0082F409 /* Grid.swift */,
+				1ACA9A5A22B7E04600A042F7 /* SetGame */,
 				1AE11A6E22AC433F0082F409 /* Main.storyboard */,
 				1AE11A7622AC43400082F409 /* LaunchScreen.storyboard */,
 				1AE11A8322AD1C390082F409 /* Others */,
