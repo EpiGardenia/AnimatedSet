@@ -78,6 +78,7 @@ class ViewController: UIViewController {
     
     
     private func tapAcard (cardbutton: CardView) {
+        print(cardbutton.cardContent!.description)
         // get cards to be updated
         let updatedCards = setGame.tappedCard(card: &cardbutton.cardContent!)
         // update view by change the card content        

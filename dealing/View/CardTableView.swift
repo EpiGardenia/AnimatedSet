@@ -60,7 +60,7 @@ class CardTableView: UIView {
         button.isFaceUp = false
         addSubview(button)
         button.alpha = 0
-        print("drawAcardButtonOnFrame,frame:" + frame.debugDescription + "b.frame  " + button.frame.debugDescription)
+      //  print("drawAcardButtonOnFrame,frame:" + frame.debugDescription + "b.frame  " + button.frame.debugDescription)
         //  layoutIfNeeded()
         return button
     }
@@ -89,7 +89,7 @@ class CardTableView: UIView {
         
         // Animate matchedCards to set label
         UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.3, delay: 0.2, options: .curveEaseInOut,
+            withDuration: 1, delay: 0.2, options: .curveEaseInOut,
             animations: {
                 copiedMatchCardsForAnimate.forEach{
                     $0.alpha = 0.7
@@ -126,7 +126,7 @@ class CardTableView: UIView {
             ,
             completion: { _ in
                 UIViewPropertyAnimator.runningPropertyAnimator(
-                    withDuration: 0.5, delay: 0.4, options: [], animations: {
+                    withDuration: 1, delay: 0.4, options: [], animations: {
                         cardButton.alpha = 1
                         cardButton.frame = posFrame
                         

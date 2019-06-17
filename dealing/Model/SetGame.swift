@@ -53,6 +53,7 @@ class SetGame {
                         var j = k
                         j.updateStatus(newStatus: .match)
                         updatedCards.append(j)
+                        cardsOnTable.remove(at: cardsOnTable.firstIndex(of: j)!)
                     }
                     // pick 3 more cards if not empty
                     updatedCards.append(contentsOf: pickCards(of: 3))
@@ -81,8 +82,8 @@ class SetGame {
     
     
     private func isValidSet(of cards : [SetGameCard]) -> Bool {
-        return true
-        //        return isAttributeValid(cards.compactMap{$0.ofColor}) && isAttributeValid(cards.compactMap{$0.ofNumber}) && isAttributeValid(cards.compactMap{$0.ofShading}) && isAttributeValid(cards.compactMap{$0.ofSymbol})
+        //return true
+                return isAttributeValid(cards.compactMap{$0.ofColor}) && isAttributeValid(cards.compactMap{$0.ofNumber}) && isAttributeValid(cards.compactMap{$0.ofShading}) && isAttributeValid(cards.compactMap{$0.ofSymbol})
     }
     
     private func allDiff<T:Equatable>(_ cardAttribute : [T]) -> Bool {
@@ -106,7 +107,7 @@ class SetGame {
                 }
             }
         }
-        return allCards.dropLast(66)
+        return allCards//.dropLast(66)
     }
     
     

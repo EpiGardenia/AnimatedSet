@@ -52,5 +52,5 @@ struct SetGameCard : CustomStringConvertible, Hashable
         status = newStatus
     }
     
- 
+    
 }

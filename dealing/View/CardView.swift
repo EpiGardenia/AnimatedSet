@@ -39,7 +39,7 @@ class CardView: UIButton {
         // round the card
         let roundedRect = UIBezierPath(rect: bounds)
         UIColor.gray.setStroke()
-        roundedRect.lineWidth = 4.0
+        roundedRect.lineWidth = bounds.getStrokeWidth(by: 0.1)
         roundedRect.stroke()
         drawPattern(card: card, innerBound: bounds.zoom(by: CGFloat(SizeRatio.patternToCardRectRatio)))
         drawStatus()
@@ -49,7 +49,7 @@ class CardView: UIButton {
     func drawStatus() {
         // print(self.cardContent?.description as Any)
         let highlightPath = UIBezierPath(rect: bounds)
-        highlightPath.lineWidth = bounds.width * 0.1
+        highlightPath.lineWidth = bounds.getStrokeWidth(by: 0.1)
         switch self.cardContent!.status {
         case .unselected: break
         case .selected:
@@ -75,7 +75,7 @@ class CardView: UIButton {
         for item in 0..<pathes.count {
             pathToRange[pathes[item]] = ranges[item]
         }
-        pathes.forEach{drawColorStroke(of: card.ofColor, on: $0, withWidth: 3.0)}
+        pathes.forEach{drawColorStroke(of: card.ofColor, on: $0, withWidth: innerBound.getStrokeWidth(by: 0.1))}
         pathes.forEach{applyShading(of: card.ofShading, with: card.ofColor, in: $0, within: pathToRange[$0]! )}
     }
     
@@ -97,7 +97,7 @@ class CardView: UIButton {
     
     private func drawColorStriped(with color: SetGameCard.SetColor, withIn block: CGRect) {
         let path = UIBezierPath()
-        let deltaY = block.height/10
+        let deltaY = block.height/4
         var pointY = block.minY + deltaY
         var pointX1 = block.maxX
         var pointX2 = block.minX
@@ -109,7 +109,7 @@ class CardView: UIButton {
             path.addLine(to: CGPoint(x: pointX2, y: pointY)) // --- (<--)
             swap(&pointX1, &pointX2)
         }
-        drawColorStroke(of: color, on: path, withWidth: 2.0)
+        drawColorStroke(of: color, on: path, withWidth: block.getStrokeWidth(by: 0.1))
     }
     
     private let greenColor = UIColor.init(red:0, green:0.6, blue:0, alpha:1)
@@ -212,6 +212,14 @@ extension CGRect {
         let newWidth = width * scale
         let newHeight = height * scale
         return CGRect(x: self.minX+(width-newWidth)/2, y: self.minY+(height-newHeight)/2, width: newWidth, height: newHeight)
+    }
+    
+    func getStrokeWidth(by scale: CGFloat) -> CGFloat {
+        if self.width < self.height {
+            return self.width * scale
+        } else {
+            return self.height * scale
+        }
     }
 }
 
