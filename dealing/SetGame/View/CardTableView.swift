@@ -44,8 +44,7 @@ class CardTableView: UIView {
         }
         return result
     }
-    
-    
+        
     func addACardButton(content card:SetGameCard, on frame: CGRect) -> CardView {
         let cardButton = drawACardButtonOnFrame(draw: card, on: frame)
         layoutIfNeeded()
@@ -53,7 +52,6 @@ class CardTableView: UIView {
         cardButtons.append(cardButton)
         return cardButton
     }
-    
     
     func drawACardButtonOnFrame(draw cardContent: SetGameCard, on frame: CGRect) -> CardView {
         let button = CardView.init(frame: frame, content: cardContent)
@@ -112,7 +110,6 @@ class CardTableView: UIView {
                 }
         }
         )
-        
     }
     
     func dealOneCardAnimate(cardButton: CardView) {
