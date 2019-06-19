@@ -144,14 +144,6 @@ class CardTableView: UIView {
     }
     
     
-    private func findCardView(of card: SetGameCard) -> CardView? {
-        if let button = cardButtons.filter({$0.cardContent == card}).first {
-            return button
-        }
-        return nil
-    }
-    
-    
     // Remove all subviews
     func clearTable() {
         //        print(description)
@@ -161,12 +153,7 @@ class CardTableView: UIView {
     }
     
     override func layoutSubviews() {
-        //        print("layoutSubviews")
         super.layoutSubviews()
-        updateSubviews()
-    }
-    
-    private func updateSubviews() {
         let tableArea = self.viewWithTag(ViewName.CardTable.rawValue)
         grid.frame = tableArea!.frame
         if (!cardButtons.isEmpty) {

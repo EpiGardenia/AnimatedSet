@@ -18,13 +18,13 @@ class CardView: UIButton {
     }
     
     override func draw(_ rect: CGRect) {
-        //        print("draw")
         let roundedRect = UIBezierPath(rect: bounds)
-        if (isFaceUp == true) {
-            // print("CardView.isFaceUp")
+        if isFaceUp {
             UIColor.white.setFill()
             roundedRect.fill()
-            drawEachCard(card: cardContent!)
+            if cardContent != nil {
+                drawEachCard(card: cardContent!)
+            }
         } else {
             UIColor.purple.setFill()
             roundedRect.fill()
@@ -47,7 +47,6 @@ class CardView: UIButton {
     
     // Highlight for different status: selected, match, unselected, nomatch
     func drawStatus() {
-        // print(self.cardContent?.description as Any)
         let highlightPath = UIBezierPath(rect: bounds)
         highlightPath.lineWidth = bounds.getStrokeWidth(by: 0.1)
         switch self.cardContent!.status {
@@ -61,7 +60,7 @@ class CardView: UIButton {
         case .notMatch:
             UIColor.red.setStroke()
             highlightPath.stroke()
-        case .inDeck:
+        case .inDeck:  // should never draw a card in deck
             assertionFailure(description)
         }
     }
@@ -204,9 +203,8 @@ class CardView: UIButton {
         path.close()
         return path
     }
-    
-    
 }
+
 extension CGRect {
     func zoom(by scale: CGFloat) -> CGRect {
         let newWidth = width * scale

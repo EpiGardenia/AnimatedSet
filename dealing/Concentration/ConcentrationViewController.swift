@@ -14,8 +14,8 @@ class ConcentrationViewController: UIViewController {
     @IBOutlet var scoreLabel: UILabel!
     @IBOutlet var timeUsed: UILabel!
 
-    lazy var emojiChoices = "🍣🥗🍳🍤🥘🍜🍱🍙"
-    lazy var themeColor = [#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)]
+    private var emojiChoices = "🍣🥗🍳🍤🥘🍜🍱🍙"
+    private var themeColor = [#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0),#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)]
 
     var emojiThemes : [Any]? {
         didSet {
@@ -29,7 +29,6 @@ class ConcentrationViewController: UIViewController {
     }
     
     lazy var game = Concentration(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
- //   lazy var randomIndex = Int(arc4random_uniform(UInt32(emojiThemes.count)))
 
     lazy var remainingEmojiChoices = emojiChoices
     @IBAction func startNewGame(_ sender: UIButton) {
@@ -52,17 +51,18 @@ class ConcentrationViewController: UIViewController {
     
     func updateViewFromModel() {
         view.backgroundColor = themeColor.last
-        if cardButtons != nil {
+        if let indices = cardButtons?.indices {
             timeUsed.text = "Time: \(game.timeUsed.rounded())"
             scoreLabel.text = "Score : \(game.score)"
             
             if game.isFinished == false {
                 flipCountLabel.text = "Flips : \(game.flipCount)"
             }
-            for index in cardButtons.indices {
+            
+            for index in indices {
                 let button = cardButtons[index]
                 let card = game.cards[index]
-                if card.isFaceUp, game.isFinished == false{
+                if card.isFaceUp, game.isFinished == false {
                     button.setTitle(emoji(for: card), for: UIControl.State.normal)
                     button.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
                 } else {
@@ -80,7 +80,6 @@ class ConcentrationViewController: UIViewController {
     func emoji(for card: ConcentrationCard) -> String {
         if emoji[card.identifier] == nil, remainingEmojiChoices.count > 0  {
             let randomIndex = emojiChoices.index(remainingEmojiChoices.startIndex, offsetBy: Int(arc4random_uniform(UInt32(remainingEmojiChoices.count))))
-           // let randomIndex = Int(arc4random_uniform(UInt32(remainingEmojiChoices.count)))
             emoji[card.identifier] = String(remainingEmojiChoices.remove(at: randomIndex))
         }
         return emoji[card.identifier] ?? "?"

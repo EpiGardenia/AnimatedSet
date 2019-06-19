@@ -82,8 +82,7 @@ class SetGame {
     
     
     private func isValidSet(of cards : [SetGameCard]) -> Bool {
-//        return true
-                return isAttributeValid(cards.compactMap{$0.ofColor}) && isAttributeValid(cards.compactMap{$0.ofNumber}) && isAttributeValid(cards.compactMap{$0.ofShading}) && isAttributeValid(cards.compactMap{$0.ofSymbol})
+        return isAttributeValid(cards.compactMap{$0.ofColor}) && isAttributeValid(cards.compactMap{$0.ofNumber}) && isAttributeValid(cards.compactMap{$0.ofShading}) && isAttributeValid(cards.compactMap{$0.ofSymbol})
     }
     
     private func allDiff<T:Equatable>(_ cardAttribute : [T]) -> Bool {
